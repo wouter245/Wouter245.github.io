@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+<div class="food-card">
+    <div class="card-image">
+        <img src="{{ page.image }}" alt="{{ page.title }}">
+    </div>
+    <h2>{{ page.title }}</h2>
+    <p>{{ page.description }}</p>
+    <p><strong>Price:</strong> ${{ page.price }}</p>
+    <p><strong>Reviews:</strong> {{ page.reviews }}</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tinderjs/1.0.5/tinder.js"></script>
+
+<script>
+    console.log("Tinder.js script is loaded");
+    var tinderContainer = document.querySelector('.food-card');
+    var allCards = document.querySelectorAll('.food-card');
+
+    console.log(allCards.length + " food cards found");
+
+    allCards.forEach(function (el) {
+        new Tinder(el, {
+            onSwipeLeft: function () {
+                console.log('Left swipe!');
+            },
+            onSwipeRight: function () {
+                var foodTitle = el.querySelector('h2').innerText;
+                var savedItems = JSON.parse(localStorage.getItem('swipedRightItems')) || [];
+                savedItems.push(foodTitle);
+                localStorage.setItem('swipedRightItems', JSON.stringify(savedItems));
+                console.log('Swiped right: ' + foodTitle);
+            }
+        });
+    });
+</script>
+
+<script src="/assets/js/Tinder.js"></script>
